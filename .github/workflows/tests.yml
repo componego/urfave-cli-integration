@@ -1,0 +1,34 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  main:
+    name: Quality Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GoLang
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.22
+      - name: Check and get dependencies
+        run: |
+          go mod tidy
+          git diff --exit-code go.mod
+      - name: Run Tests
+        run: go test ./...
+      - name: Run Linters
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.59.1
+      - name: Run Security Scanner
+        uses: securego/gosec@master
+        with:
+          args: ./...
