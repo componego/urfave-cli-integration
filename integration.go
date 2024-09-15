@@ -4,8 +4,6 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"os/signal"
-	"syscall"
 
 	"github.com/componego/componego"
 	"github.com/componego/componego/impl/application"
@@ -61,22 +59,6 @@ func Run(app componego.Application, appMode componego.ApplicationMode) int {
 // RunAndExit runs the application and exits the program after stopping the application.
 func RunAndExit(app componego.Application, appMode componego.ApplicationMode) {
 	cli.OsExiter(Run(app, appMode))
-}
-
-// RunGracefullyAndExit runs the application and stops it gracefully.
-func RunGracefullyAndExit(app componego.Application, appMode componego.ApplicationMode) {
-	cancelableCtx, cancelCtx := context.WithCancel(context.Background())
-	interruptChan := make(chan os.Signal, 1)
-	signal.Notify(interruptChan, os.Interrupt, syscall.SIGTERM)
-	go func() {
-		select {
-		case <-interruptChan:
-		case <-cancelableCtx.Done():
-			signal.Stop(interruptChan)
-		}
-		cancelCtx()
-	}()
-	cli.OsExiter(RunWithContext(cancelableCtx, app, appMode))
 }
 
 func toAction(app componego.Application) cli.ActionFunc {
