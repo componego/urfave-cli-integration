@@ -4,14 +4,14 @@
 [![Tests](https://github.com/componego/urfave-cli-integration/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/componego/urfave-cli-integration/actions/workflows/tests.yml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/componego/urfave-cli-integration.svg)](https://pkg.go.dev/github.com/componego/urfave-cli-integration)
 
-This package provides easy integration of the [Componego Framework](https://github.com/componego/componego) with [Urfave CLI V2](https://github.com/urfave/cli).
+This package enables seamless integration of [Componego Framework](https://github.com/componego/componego) with [Urfave CLI V2](https://github.com/urfave/cli).
 
-All [Urfave CLI](https://github.com/urfave/cli) features are supported.
-You can use a convenient solution for processing command line arguments with the [Componego Framework](https://github.com/componego/componego) together.
+It supports all features of the [Urfave CLI](https://github.com/urfave/cli),
+offering a convenient solution for processing command-line arguments within the [Componego Framework](https://github.com/componego/componego).
 
 ### Documentation
 
-The application must be launched in a special way for this to work.
+An application must be launched in a specific way for this functionality to work:
 
 #### main.go
 ```go
@@ -28,11 +28,10 @@ func main() {
     urfave_cli_integration.RunAndExit(application.New(), componego.ProductionMode)
 }
 ```
-This is necessary because the current integration may launch different [componego applications](https://github.com/componego/componego) depending on the command line arguments.
+This is necessary because the current integration may launch different [Componego applications](https://github.com/componego/componego) depending on the command-line arguments.
 
-
-Inside the application, you can access the [Urfave CLI](https://github.com/urfave/cli) context.
-You can also modify any command options. For example, add a couple of required flags for the command line.
+You can access the [Urfave CLI](https://github.com/urfave/cli) context and modify any command options within the application.
+For example, you can add a couple of required flags for the command line:
 
 #### application.go
 ```go
@@ -87,7 +86,7 @@ var (
 )
 ```
 
-Subcommands can be added like this:
+Subcommands can be added as follows:
 
 ```go
 // ApplicationCLI belongs to interface urfave_cli_integration.ApplicationCLI.
@@ -99,7 +98,7 @@ func (a *Application) ApplicationCLI(cmd *cli.Command) {
 }
 ```
 
-Examples available [here](./examples).
+Examples are available [here](./examples).
 
 ### Contributing
 

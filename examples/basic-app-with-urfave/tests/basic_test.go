@@ -15,8 +15,10 @@ import (
 
 func TestBasic(t *testing.T) {
 	buffer := &bytes.Buffer{}
-	env, cancelEnv := runner.CreateTestEnvironment(t, mocks.NewApplicationMock(), &driver.Options{
-		AppIO: application.NewIO(nil, buffer, buffer),
+	env, cancelEnv := runner.CreateTestEnvironment(t, mocks.NewApplicationMock(), &runner.TestOptions{
+		Driver: driver.New(&driver.Options{
+			AppIO: application.NewIO(nil, buffer, buffer),
+		}),
 	})
 	t.Cleanup(cancelEnv)
 

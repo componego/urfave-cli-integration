@@ -3,7 +3,7 @@ module github.com/componego/urfave-cli-integration
 go 1.22
 
 require (
-	github.com/componego/componego v0.1.0
+	github.com/componego/componego v0.2.0
 	github.com/urfave/cli/v2 v2.27.4
 )
 

@@ -38,13 +38,13 @@ func RunWithContext(ctx context.Context, app componego.Application, appMode comp
 	internal.SetMetadata(cliApp, appModeKey, appMode)
 	err := cliApp.RunContext(ctx, cliArgs)
 	if err == nil {
-		return internal.GetMetadata(cliApp, exitCodeKey, componego.SuccessExitCode)
+		return internal.GetMetadata[int](cliApp, exitCodeKey, componego.SuccessExitCode)
 	}
 	_, err = fmt.Fprintln(cliApp.ErrWriter, "\nERROR:", err.Error())
 	if err != nil {
 		panic(err)
 	}
-	exitCode := internal.GetMetadata(cliApp, exitCodeKey, componego.ErrorExitCode)
+	exitCode := internal.GetMetadata[int](cliApp, exitCodeKey, componego.ErrorExitCode)
 	if exitCode == componego.SuccessExitCode {
 		return componego.ErrorExitCode
 	}
@@ -115,7 +115,7 @@ func toApplication(app componego.Application) *cli.App {
 		return onUsageErrorOrig(cliCtx, err, isSubcommand)
 	}
 	cliApp.ExitErrHandler = func(cliCtx *cli.Context, err error) {
-		exitCode := internal.GetMetadata(cliCtx.App, exitCodeKey, componego.SuccessExitCode)
+		exitCode := internal.GetMetadata[int](cliCtx.App, exitCodeKey, componego.SuccessExitCode)
 		if exitCode == componego.SuccessExitCode && err != nil {
 			internal.SetMetadata(cliCtx.App, exitCodeKey, componego.ErrorExitCode)
 		}
